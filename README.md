@@ -6,7 +6,7 @@
 **스프링부트 2.4, spring, java, H2, gradle, intellij, JDK 11(java11)**
 
 ## 수강평
-스프링 책을 읽고 난 후 이 강의를 보니 전에 잘 와닿지 않던 개념들이 와닿았다. 특히 MVC와 정적 컨텐츠, API, DI 인터페이스로 Repository 설계 후 H2를 이용하였고 JDBC, JdbcTemplate, JPA, AO
+스프링 책을 읽고 난 후 이 강의를 보니 전에 잘 와닿지 않던 개념들이 와닿았다. 특히 Testcode 작성하는 것, MVC와 정적 컨텐츠, API, DI 인터페이스로 Repository 설계 후 H2를 이용하였고 JDBC, JdbcTemplate, JPA, AO
 P로 바꿔끼기만 하면 되는것에 대해 책에서는 붕뜨는 느낌이었다면 이번 강의를 통해 코드를 직접 만들면서 이해하게되었고 스피링에 대한 전반적인 밑그림을 그렸다.
 
 ## 예시 사진
@@ -20,4 +20,59 @@ P로 바꿔끼기만 하면 되는것에 대해 책에서는 붕뜨는 느낌이
 * 데이터: 회원ID, 이름
 * 기능: 회원 등록, 조회
 * 아직 데이터 저장소가 선정되지 않음(가상의 시나리오)
+
+## 중요한 부분 정리
+
+# 정적 컨텐츠
+1. 웹 브라우저에서 내장 톰캣 서버한테 localhost:8080/hello-static.html 보낸다.
+2. 스프링 컨테이너에서 hello-static 관련 컨트롤러를 찾지만 없다.
+3. resources: static/hello-static.html을 찾고 웹 브라우저한테 보내준다.
+
+# MVC(Model, View, Controller
+1. 웹 브라우저에서 내장 톰캣 서버한테 localhost:8080/hello-mvc 보낸다.
+2. 스프링 컨테이너에서 helloConroller를 찾아 실행한다.
+3. return: hello-template, model(name: spring)
+4. viewResolver에서 templates/hello-tempalte.html을 찾아 name:spring으로 변환후 HTML을 웹 브라우저로 보낸다.
+
+* Controller
+
+```
+@Controller
+public class HelloController {
+ @GetMapping("hello-mvc")
+ public String helloMvc(@RequestParam("name") String name, Model model) {
+ model.addAttribute("name", name);
+ return "hello-template";
+ }
+}
+```
+
+* View
+
+```
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<p th:text="'hello ' + ${name}">hello! empty</p>
+</body>
+</html>
+```
+
+# API
+* @ResponseBody 를 사용하면 뷰 리졸버( viewResolver )를 사용하지 않음
+* 대신에 HTTP의 BODY에 문자 내용을 직접 반환(HTML BODY TAG를 말하는 것이 아님)
+* viewResolver 대신에 HttpMessageConverter 가 동작
+* 기본 문자처리: StringHttpMessageConverter
+* 기본 객체처리: MappingJackson2HttpMessageConverter
+* byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있음
+
+```
+@Controller
+public class HelloController {
+ @GetMapping("hello-string")
+ @ResponseBody
+ public String helloString(@RequestParam("name") String name) {
+ return "hello " + name;
+ }
+}
+```
 
