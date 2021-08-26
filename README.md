@@ -76,3 +76,14 @@ public class HelloController {
 }
 ```
 
+## 컴포넌트 스캔 원리
+* @Component 애노테이션이 있으면 스프링 빈으로 자동 등록된다.
+* @Controller 컨트롤러가 스프링 빈으로 자동 등록된 이유도 컴포넌트 스캔 때문이다.
+* @Component 를 포함하는 다음 애노테이션도 스프링 빈으로 자동 등록된다.
+ * @Controller
+ * @Service
+ * @Repository
+
+## @Transactional
+@Transactional : 테스트 케이스에 이 애노테이션이 있으면, 테스트 시작 전에 트랜잭션을 시작하고, 테스트 완료 후에 항상 롤백한다. 이렇게 하면 DB에 데이터가 남지 않으므로 다음 테스트에 영향을 주지 않는다.
+
