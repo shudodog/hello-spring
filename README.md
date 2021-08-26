@@ -23,12 +23,12 @@ P로 바꿔끼기만 하면 되는것에 대해 책에서는 붕뜨는 느낌이
 
 ## 중요한 부분 정리
 
-# 정적 컨텐츠
+### 정적 컨텐츠
 1. 웹 브라우저에서 내장 톰캣 서버한테 localhost:8080/hello-static.html 보낸다.
 2. 스프링 컨테이너에서 hello-static 관련 컨트롤러를 찾지만 없다.
 3. resources: static/hello-static.html을 찾고 웹 브라우저한테 보내준다.
 
-# MVC(Model, View, Controller
+### MVC(Model, View, Controller)
 1. 웹 브라우저에서 내장 톰캣 서버한테 localhost:8080/hello-mvc 보낸다.
 2. 스프링 컨테이너에서 helloConroller를 찾아 실행한다.
 3. return: hello-template, model(name: spring)
@@ -57,7 +57,7 @@ public class HelloController {
 </html>
 ```
 
-# API
+### API
 * @ResponseBody 를 사용하면 뷰 리졸버( viewResolver )를 사용하지 않음
 * 대신에 HTTP의 BODY에 문자 내용을 직접 반환(HTML BODY TAG를 말하는 것이 아님)
 * viewResolver 대신에 HttpMessageConverter 가 동작
@@ -76,7 +76,7 @@ public class HelloController {
 }
 ```
 
-## 컴포넌트 스캔 원리
+### 컴포넌트 스캔 원리
 * @Component 애노테이션이 있으면 스프링 빈으로 자동 등록된다.
 * @Controller 컨트롤러가 스프링 빈으로 자동 등록된 이유도 컴포넌트 스캔 때문이다.
 * @Component 를 포함하는 다음 애노테이션도 스프링 빈으로 자동 등록된다.
@@ -84,6 +84,6 @@ public class HelloController {
  * @Service
  * @Repository
 
-## @Transactional
+### @Transactional
 @Transactional : 테스트 케이스에 이 애노테이션이 있으면, 테스트 시작 전에 트랜잭션을 시작하고, 테스트 완료 후에 항상 롤백한다. 이렇게 하면 DB에 데이터가 남지 않으므로 다음 테스트에 영향을 주지 않는다.
 
